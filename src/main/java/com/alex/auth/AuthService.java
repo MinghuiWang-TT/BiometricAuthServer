@@ -1,30 +1,33 @@
 package com.alex.auth;
 
+import com.alex.auth.model.ChallengeResponse;
 import com.alex.auth.model.User;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Consumes(MediaType.WILDCARD) @Produces(MediaType.APPLICATION_JSON) @Tag(name = "auth")
 @Path("/auth") public interface AuthService {
 
-    @POST @Consumes(MediaType.APPLICATION_JSON) @Produces(MediaType.APPLICATION_JSON)
+    @GET @Consumes(MediaType.APPLICATION_JSON) @Produces(MediaType.APPLICATION_JSON)
+    @Path("/user/{userId}") Response getUser(@NotNull @PathParam("userId") String userId);
+
+    @POST @Consumes(MediaType.APPLICATION_JSON) @Produces(MediaType.APPLICATION_JSON) @Path("/user")
     Response crateUser(User user);
 
-    @PUT @Path("/validate/{email}") @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON) Response validate(
-        @NotNull @PathParam("email") String emailAddress, @Context HttpHeaders headers);
+    @PUT @Path("/user/{userId}/key/{publicKey}") @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON) Response updatePublicKey(
+        @NotNull @PathParam("userId") String userId,
+        @NotNull @PathParam("publicKey") String publicKey);
 
-    @GET @Path("/challenge/{email}") @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON) Response getChallenge(
-        @NotNull @PathParam("email") String emailAddress);
+    @POST @Path("/challenge/{userId}") @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON) Response createChallenge(
+        @NotNull @PathParam("userId") String userId);
 
-    @PUT @Path("/challenge/{email}") @Consumes(MediaType.APPLICATION_JSON)
+    @PUT @Path("/challenge/{userId}") @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON) Response responseToChallenge(
-        @NotNull @PathParam("email") String emailAddress);
+        @NotNull @PathParam("userId") String userId, @NotNull ChallengeResponse challengeId);
 }

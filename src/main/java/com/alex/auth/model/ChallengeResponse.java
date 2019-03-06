@@ -10,22 +10,22 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_EMPTY) @JsonAutoDetect
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type") @SuppressWarnings("serial")
 @JsonIgnoreProperties(ignoreUnknown = true) public class ChallengeResponse implements Serializable {
-    private String changeId;
-    private String response;
+    private String challengeId;
+    private String payload;
 
-    public String getChangeId() {
-        return changeId;
+    public String getChallengeId() {
+        return challengeId;
     }
 
-    public void setChangeId(String changeId) {
-        this.changeId = changeId;
+    public void setChallengeId(String challengeId) {
+        this.challengeId = challengeId;
     }
 
-    public String getResponse() {
-        return response;
+    public String getPayload() {
+        return payload;
     }
 
-    public void setResponse(String response) {
-        this.response = response;
+    public void setPayload(String payload) {
+        this.payload = payload;
     }
 }

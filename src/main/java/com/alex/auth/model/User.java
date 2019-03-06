@@ -10,10 +10,18 @@ import java.io.Serializable;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type") @SuppressWarnings("serial")
 public class User implements Serializable {
 
-    private String userId;
+    private String id;
     private String email;
     private String secret;
     private String publicKey;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;

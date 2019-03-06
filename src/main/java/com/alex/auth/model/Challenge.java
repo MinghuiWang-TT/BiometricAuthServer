@@ -10,16 +10,26 @@ import java.io.Serializable;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type") @SuppressWarnings("serial")
 public class Challenge implements Serializable {
 
-    private String changeId;
+    private String id;
+    private String userId;
+    private String payload;
     private String nonce;
-    private String challenge;
 
-    public String getChangeId() {
-        return changeId;
+
+    public String getUserId() {
+        return userId;
     }
 
-    public void setChangeId(String changeId) {
-        this.changeId = changeId;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNonce() {
@@ -30,11 +40,11 @@ public class Challenge implements Serializable {
         this.nonce = nonce;
     }
 
-    public String getChallenge() {
-        return challenge;
+    public String getPayload() {
+        return payload;
     }
 
-    public void setChallenge(String challenge) {
-        this.challenge = challenge;
+    public void setPayload(String payload) {
+        this.payload = payload;
     }
 }
