@@ -5,9 +5,7 @@ import com.alex.auth.model.User;
 
 public interface DataBase {
 
-    void createUser(User user);
-
-    void updateUser(User user);
+    void saveUser(User user);
 
     User getUser(String userID);
 

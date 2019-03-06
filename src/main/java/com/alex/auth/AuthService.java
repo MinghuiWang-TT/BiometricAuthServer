@@ -13,21 +13,21 @@ import javax.ws.rs.core.Response;
 @Path("/auth") public interface AuthService {
 
     @GET @Consumes(MediaType.APPLICATION_JSON) @Produces(MediaType.APPLICATION_JSON)
-    @Path("/user/{userId}") Response getUser(@NotNull @PathParam("userId") String userId);
+    @Path("/user/{userName}") Response getUser(@NotNull @PathParam("userName") String userName);
 
     @POST @Consumes(MediaType.APPLICATION_JSON) @Produces(MediaType.APPLICATION_JSON) @Path("/user")
-    Response crateUser(User user);
+    Response createUser(User user);
 
-    @PUT @Path("/user/{userId}/key/{publicKey}") @Consumes(MediaType.APPLICATION_JSON)
+    @PUT @Path("/user/{userName}/key/{publicKey}") @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON) Response updatePublicKey(
-        @NotNull @PathParam("userId") String userId,
+        @NotNull @PathParam("userName") String userName,
         @NotNull @PathParam("publicKey") String publicKey);
 
-    @POST @Path("/challenge/{userId}") @Consumes(MediaType.APPLICATION_JSON)
+    @POST @Path("/challenge/{userName}") @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON) Response createChallenge(
-        @NotNull @PathParam("userId") String userId);
+        @NotNull @PathParam("userName") String userName);
 
-    @PUT @Path("/challenge/{userId}") @Consumes(MediaType.APPLICATION_JSON)
+    @PUT @Path("/challenge/{userName}") @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON) Response responseToChallenge(
-        @NotNull @PathParam("userId") String userId, @NotNull ChallengeResponse challengeId);
+        @NotNull @PathParam("userName") String userName, @NotNull ChallengeResponse challengeId);
 }

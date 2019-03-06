@@ -14,22 +14,12 @@ import java.util.concurrent.ConcurrentHashMap;
     private Map<String, User> userMap = new ConcurrentHashMap<String, User>();
     private Map<String, Challenge> challengeMap = new ConcurrentHashMap<String, Challenge>();
 
-    @Override public void createUser(User user) {
-        String id = Integer.toString(getId(userMap));
-        user.setId(id);
-        userMap.put(id, user);
+    @Override public void saveUser(User user) {
+        userMap.put(user.getUserName(), user);
     }
 
-    @Override public void updateUser(User user) {
-        String id = user.getId();
-        if (!userMap.containsKey(id)) {
-            throw new NotFoundException();
-        }
-        userMap.put(id, user);
-    }
-
-    @Override public User getUser(String userID) {
-        return userMap.get(userID);
+    @Override public User getUser(String userName) {
+        return userMap.get(userName);
     }
 
     @Override public Challenge getChallenge(String id) {

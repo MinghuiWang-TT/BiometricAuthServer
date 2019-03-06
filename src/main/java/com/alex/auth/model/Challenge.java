@@ -12,8 +12,8 @@ public class Challenge implements Serializable {
 
     private String id;
     private String userId;
-    private String payload;
-    private String nonce;
+    private String challenge;
+    private Long nonce;
 
 
     public String getUserId() {
@@ -32,19 +32,19 @@ public class Challenge implements Serializable {
         this.id = id;
     }
 
-    public String getNonce() {
+    public Long getNonce() {
         return nonce;
     }
 
-    public void setNonce(String nonce) {
+    public void setNonce(Long nonce) {
         this.nonce = nonce;
     }
 
-    public String getPayload() {
-        return payload;
+    public String getChallenge() {
+        return challenge;
     }
 
-    public void setPayload(String payload) {
-        this.payload = payload;
+    public void setChallenge(String challenge) {
+        this.challenge = challenge;
     }
 }

@@ -17,34 +17,32 @@ import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
-import java.util.Date;
 
 public class AuthServiceImpl implements AuthService {
+    private static final String SALT = "GouDan";
     @Autowired DataBase dataBase;
 
-
-    @Override public Response getUser(@NotNull String userId) {
-        User user = dataBase.getUser(userId);
+    @Override public Response getUser(@NotNull String userName) {
+        User user = dataBase.getUser(userName);
         if (user == null) {
-            throw new NotFoundException("No user found by userId:" + userId);
+            throw new NotFoundException("No user found by user name:" + userName);
         }
 
         return Response.ok().entity(user).build();
     }
 
-    @Override public Response crateUser(User user) {
-        dataBase.createUser(user);
+    @Override public Response createUser(User user) {
+        dataBase.saveUser(user);
         return Response.ok().entity(user).build();
     }
 
     @Override public Response updatePublicKey(@NotNull String userId, @NotNull String publicKey) {
-        //TODO:Authentication needed
         User user = dataBase.getUser(userId);
         if (user == null) {
             throw new NotFoundException("No user found by userId:" + userId);
         }
         user.setPublicKey(publicKey);
-        dataBase.updateUser(user);
+        dataBase.saveUser(user);
         return Response.ok().entity(user).build();
     }
 
@@ -55,10 +53,9 @@ public class AuthServiceImpl implements AuthService {
         }
         Challenge challenge = new Challenge();
         challenge.setUserId(userId);
-        challenge.setNonce(generateNonce());
-        challenge.setPayload("Alex");
+        challenge.setNonce(new SecureRandom().nextLong());
+        challenge.setChallenge("UUID.randomUUID().toString()");
         dataBase.createChallenge(challenge);
-
         return Response.created(URI.create("/challenge/" + userId + "/" + challenge.getId()))
             .entity(challenge).build();
     }
@@ -73,10 +70,10 @@ public class AuthServiceImpl implements AuthService {
 
         User user = dataBase.getUser(userId);
 
-        boolean verified = false;
         try {
             String decryptString = decrypt(response.getPayload(), user.getPublicKey());
-            verified = decryptString.equals(challenge.getPayload());
+            boolean verified = decryptString
+                .equals(Long.toString(challenge.getNonce()) + challenge.getNonce() + SALT);
             AuthenticationResponse authenticationResponse = new AuthenticationResponse();
             authenticationResponse
                 .setStatus(verified ? AuthStatus.SUCCESS.name() : AuthStatus.FAIL.name());
@@ -85,12 +82,6 @@ public class AuthServiceImpl implements AuthService {
         } catch (Exception e) {
             throw new IllegalStateException(e.getMessage(), e);
         }
-    }
-
-    private static String generateNonce() {
-        String dateTimeString = Long.toString(new Date().getTime());
-        byte[] nonceByte = dateTimeString.getBytes();
-        return Base64.getEncoder().encodeToString(nonceByte);
     }
 
     private static String decrypt(String payLoad, String pubKey)
