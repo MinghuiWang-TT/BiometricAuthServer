@@ -18,11 +18,6 @@ import javax.ws.rs.core.Response;
     @POST @Consumes(MediaType.APPLICATION_JSON) @Produces(MediaType.APPLICATION_JSON) @Path("/user")
     Response createUser(User user);
 
-    @PUT @Path("/user/{userName}/key/{publicKey}") @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON) Response updatePublicKey(
-        @NotNull @PathParam("userName") String userName,
-        @NotNull @PathParam("publicKey") String publicKey);
-
     @POST @Path("/challenge/{userName}") @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON) Response createChallenge(
         @NotNull @PathParam("userName") String userName);

@@ -7,7 +7,7 @@ public interface DataBase {
 
     void saveUser(User user);
 
-    User getUser(String userID);
+    User getUser(String userName);
 
     void createChallenge(Challenge challenge);
 
