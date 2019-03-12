@@ -5,14 +5,9 @@ import com.alex.auth.model.*;
 import com.google.common.base.Charsets;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
